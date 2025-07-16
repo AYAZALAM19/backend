@@ -30,7 +30,7 @@ export const createProduct = async (req: Request, res: Response) => {
         sku,
         name,
         price: parseFloat(price),
-        images: [imagePath], // Single image stored as array
+        images: [imagePath], 
       },
     });
 
@@ -82,7 +82,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    // Step 2: Delete the associated image file(s)
     if (product.images && product.images.length > 0) {
       product.images.forEach((imgPath) => {
         // Get the filename from the image path (e.g. "/uploads/xyz.jpg")
@@ -98,8 +97,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
         });
       });
     }
-
-    // Step 3: Delete the product from the database
+    
     await prisma.product.delete({ where: { id } });
 
     res.json({ message: "✅ Product and associated image(s) deleted" });
